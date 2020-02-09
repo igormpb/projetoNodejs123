@@ -8,7 +8,12 @@ router.get('/',function(req,res){
     res.render('admin/index')
 })
 router.get('/categoria',(req,res)=>{
-    res.render('admin/categoria')
+    Categoria.find().sort({date:'desc'}).then((categorias)=>{
+        res.render('admin/categoria',{categorias: categorias});
+    }).catch((err)=>{
+        res.redirect('/admin')
+    })
+    
 })
 router.get('/categoria/add',(req,res)=>{
     res.render('admin/addCategoria')
@@ -26,12 +31,12 @@ router.post('/categorias/nova',function(req,res){
         erros.push({texto:'Nome inválido'})
     }
     if(req.body.nome.length < 2){
-        erros.push({texto: 'Preenche Mais'})
+        erros.push({texto: 'Nome com caracteres insuficiênte'})
     }
     
     
         if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug ==null){
-        erros.push({texto:'slug inválido'})
+        erros.push({texto:'Slug inválido'})
     }
 
     if(erros.length >0){
@@ -51,5 +56,14 @@ router.post('/categorias/nova',function(req,res){
        //res.redirect("/admin")
    })
 })
+router.get('/categoria/edit/:id',(req,res)=>{
+Categoria.findOne({_id:req.params.id}).then((categoria)=>{
+    res.render("admin/editcategoria",{categoria:categoria})
+}).catch((err)=>{
+    flash('error_msg','Não foi possivel achar essa categoria')
+})
+})
+
+
 
 module.exports = router;
