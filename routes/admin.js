@@ -48,7 +48,7 @@ router.post('/categorias/nova',function(req,res){
         res.redirect("/admin/categoria")
    }).catch((err)=>{
        req.flash('error_msg','houve um erro!,Tenta novamente')
-       res.redirect("/admin")
+       //res.redirect("/admin")
    })
 })
 
