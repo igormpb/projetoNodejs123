@@ -37,7 +37,9 @@ app.use(bodyParser.json());
 //public 
 app.use(express.static(path.join(__dirname, 'public')));
 // rotas
-app.use('/admin', admin);
+
+
+ app.use('/admin', admin);
 
 
 

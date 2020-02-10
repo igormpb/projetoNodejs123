@@ -1,0 +1,23 @@
+<h2>Lista de Postagem: </h2>
+<hr>
+<a href="/admin/postagem/add"><button class="btn btn" style="background-color: rgb(61, 16, 102); color: white;">Nova postagem</button></a>
+
+{{#each postagens}}
+<div class="card mt-2">
+    <div class="card-body">
+        <h4>{{titulo}}</h4>
+        <p>{{descricao}}</p>
+        <small style="font-size:16px;">{{categoria.nome}}</small><br>
+        <small >{{data}}</small>
+        
+         <form action="/admin/postagem/deletar" method="POST">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button class="btn btn-outline-danger mt-2 " style="font-family:sans-serif; font-size: 18px;">Deletar Postagem</button>
+        </form>
+    </div>
+    
+</div>
+{{else}}
+<h2 class="mt-2">Nenhuma postagem registrada</h2>
+
+{{/each}}

@@ -4,15 +4,14 @@
 {{else}}
 {{/each}}
 <div class="card-body">
-    <h2>Nova categoria: </h2>
-</div>
-<div class="card-body">
+     <h2 style="font-family: sans-serif;">Nova categoria:</h2>
+    <hr>
     <form action="/admin/categorias/nova" method="POST">
         <label for="nome">Nome: </label>
         <input class="form-control" type="text" name="nome" id="nome" placeholder="nome da categoria...">
         <div class="slug">Slug: </div>
         <input class="form-control" type="text" name="slug" id="slug" placeholder="Slug da categoria">
         <br>
-        <button class="btn btn-primary">Criar categoria</button>
+        <button class="btn btn" style="background-color: rgb(61, 16, 102); color:white;">Criar categoria</button>
     </form>
 </div>

@@ -1,16 +1,21 @@
 <h2>Lista de categoria: </h2>
 <hr>
-<a href="/admin/categoria/add"><button class="btn btn-primary">Nova Categoria</button></a>
+<a href="/admin/categoria/add"><button class="btn btn" style="background-color: rgb(61, 16, 102); color: white;">Nova Categoria</button></a>
 {{#each categorias}}
 <div class="card mt-4">
     <div class="card-body">
-        <h4>{{nome}}</h4> 
+
+        <h4>{{nome}}</h4>
         <small>{{slug}}</small><br>
-        <small style="color: rgb(110, 122, 122);">{{date}}</small>
+        <small style="color: rgb(148, 148, 148);">{{date}}</small>
         <br>
- <a href="/admin/categorias/edit/{{_id}}"><button class="btn btn-primary mt-3" style="background-color:rgb(77, 8, 77);">edit categoria</button></a>
+        <a href="/admin/categorias/edit/{{_id}}"><button class="btn btn mt-3" style="background-color: rgb(61, 16, 102); color: white;">Editar categoria</button></a>
+        <form action="/admin/categoria/deletar" method="POST">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button class="btn btn-outline-danger mt-2 " style="font-family:sans-serif; font-size: 18px;">Deletar categoria</button>
+        </form>
     </div>
-   
+
 </div>
 
 
