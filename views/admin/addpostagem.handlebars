@@ -10,7 +10,7 @@
     <form action="/admin/postagens/nova" method="POST">
     <label for="titulo">Titulo: </label>
     <input type="text" name="titulo" class="form-control mt-2" required/>
-    <label for="slug">Slug: </label>
+    <label for="slug" pattern="[a-zA-Z0-9]">Slug: </label>
     <input type="text" name="slug" class="form-control" required/>
     <label for="descricao">Descrição: </label>
     <input type="text" name="descricao" class="form-control" required/>

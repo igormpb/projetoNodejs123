@@ -6,10 +6,12 @@
 <div class="card mt-2">
     <div class="card-body">
         <h4>{{titulo}}</h4>
+        <small pattern="[a-z\s]+$">{{slug}}</small>
+        <hr>
         <p>{{descricao}}</p>
         <small style="font-size:16px;">{{categoria.nome}}</small><br>
-        <small >{{data}}</small>
-        
+        <small >{{data}}</small><br>
+        <a href="/admin/postagem/edit/{{_id}}"><button class="btn btn mt-3" style="background-color: rgb(61, 16, 102); color: white;">Editar categoria</button></a>
          <form action="/admin/postagem/deletar" method="POST">
             <input type="hidden" name="id" value="{{_id}}">
             <button class="btn btn-outline-danger mt-2 " style="font-family:sans-serif; font-size: 18px;">Deletar Postagem</button>

@@ -1,14 +1,15 @@
+require("../models/postagem")
+require("../models/Categoria")
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-require("../models/Categoria")
 const Categoria = mongoose.model("categorias");
-require("../models/postagem")
 const Postagem = mongoose.model("postagens") 
 router.get('/', function (req, res) {
     res.render('admin/index')
 })
-router.get('/categoria', (req, res) => {
+router.get('/categorias', (req, res) => {
     Categoria.find().sort({ date: 'desc' }).then((categorias) => {
         res.render('admin/categoria', { categorias: categorias });
     }).catch((err) => {
@@ -41,7 +42,7 @@ router.post('/categorias/nova', function (req, res) {
     }
 
     if (erros.length > 0) {
-        res.render('admin/addCategoria', { erros: erros });
+        res.render('admin/addCategorias', { erros: erros });
     }
 
 
@@ -51,10 +52,10 @@ router.post('/categorias/nova', function (req, res) {
     }
     new Categoria(novaCategoria).save().then(() => {
         req.flash('success_msg', "categoria criada com successo!")
-        res.redirect("/admin/categoria")
+        res.redirect("/admin/categorias")
     }).catch((err) => {
-        req.flash('error_msg', 'houve um erro!,Tenta novamente')
-        //res.redirect("/admin")
+        req.flash('error_msg', 'houve um erro! Tenta novamente')
+        res.redirect("/admin/categorias")
     })
 
 })
@@ -63,7 +64,7 @@ router.get('/categorias/edit/:id', (req, res) => {
         res.render("admin/editcategoria", { categoria: categoria })
     }).catch((err) => {
         req.flash("error_msg", 'Não foi possivel achar essa categoria');
-        res.redirect('/admin/categoria')
+        res.redirect('/admin/categorias')
     })
 })
 
@@ -93,27 +94,28 @@ router.post('/categorias/edit', (req, res) => {
 
         categoria.nome = req.body.nome
         categoria.slug = req.body.slug
+        categoria.date = new Date
 
         categoria.save().then(() => {
             req.flash('success_msg', 'Categoria editada com sucesso!')
-            res.redirect('/admin/categoria');
+            res.redirect('/admin/categorias');
         }).catch((err) => {
             req.flash('error_msg', 'Erro ao editar a categoria!');
-            res.redirect('/admin/categoria')
+            res.redirect('/admin/categorias')
         })
     }).catch((err) => {
         req.flash('error_msg', 'houve um error!')
-        res.redirect('/admin/categoria');
+        res.redirect('/admin/categorias');
     })}
 
 })
 router.post('/categoria/deletar',(req,res)=>{
     Categoria.remove({_id: req.body.id}).then(()=>{
         req.flash('success_msg','deletado com sucesso!');
-        res.redirect('/admin/categoria')
+        res.redirect('/admin/categorias')
     }).catch((err)=>{
         req.flash('error_msg','error ao deletar')
-        res.redirect('/admin/categoria')
+        res.redirect('/admin/categorias')
     })
 })
 
@@ -122,7 +124,7 @@ router.get('/postagens',(req,res)=>{
         res.render('admin/postagens',{postagens: postagens});
     }).catch((err)=>{
         req.flash('error_msg','houver um error ao postar')
-        res.render('/admin')
+        res.render('admin/postagens')
     })
 })
 
@@ -139,6 +141,7 @@ router.post('/postagens/nova',(req,res)=>{
     
     var erros = [];
 
+    
     if(req.body.categoria == 0){
         erros.push({texto:'categoria inválida, registre uma categoria'})
     }
@@ -170,6 +173,39 @@ router.post('/postagem/deletar',(req,res)=>{
         req.flash('error_msg','error ao deletar')
         res.redirect('/admin/postagens')
     })
+})
+router.get('/postagem/edit/:id', (req, res) => {
+    
+    Postagem.findOne({ _id: req.params.id }).then((postagem) => {
+        Categoria.find().then((categorias)=>{
+            res.render("admin/editpostagem", {categorias: categorias, postagem: postagem })
+        })
+    }).catch((err) => {
+        req.flash("error_msg", 'Não foi possivel achar essa categoria');
+        res.redirect('/admin/postagem')
+    })
+})
+router.post('/postagem/edit', (req,res)=>{
+    
+    Postagem.findOne({_id: req.body.id}).then((postagem)=>{
+        postagem.titulo = req.body.titulo
+        postagem.slug = req.body.slug
+        postagem.descricao = req.body.descricao
+        postagem.conteudo = req.body.conteudo
+        postagem.categoria = req.body.categoria
+        postagem.data = new Date
+        
+
+        postagem.save().then(()=>{
+            req.flash('success_msg','Postagem editada com sucesso!')
+            res.redirect('/admin/postagens')
+        }).catch((err)=>{
+            req.flash('error_msg','erro ao editar')
+            res.redirect('/admin/postagens')
+        })
+        
+    })
+
 })
 
 module.exports = router;

@@ -6,6 +6,8 @@ const admin = require('./routes/admin');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
+require('./models/postagem');
+const Postagem = mongoose.model('postagens')
 const app = express();
 
 //sessao
@@ -38,7 +40,27 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 // rotas
 
+app.get('/',(req,res)=>{
+    Postagem.find().populate('categoria').sort({data : 'desc'}).then((postagens)=>{
+        res.render('index',{postagens: postagens})
+    }).catch((err)=>{
+        req.flash('error_msg','erro!')
+    })
+})
 
+app.get('/postagem/:slug',(req,res)=>{
+    Postagem.findOne({slug:req.params.slug}).then((postagens)=>{
+        if(Postagem){
+            res.render('postagem/index',{postagens: postagens});
+        }else{
+           req.flash('error_msg','Não foi possivel carregar está pagina')
+           res.redirect('/')
+        }
+    }).catch((err)=>{
+        req.flash('error_msg','error!!')
+        res.redirect('/')
+    })
+})
  app.use('/admin', admin);
 
 
