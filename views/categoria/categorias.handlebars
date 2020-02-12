@@ -1,0 +1,17 @@
+<h2 style="font-family: sans-serif;">categorias</h2>
+<hr>
+{{#each categorias}}
+<div class=" mt-2">
+        
+            <a style="font-size: 20px; color:black; font-family: sans-serif;" href="/categorias/{{slug}}">
+               <button class="btn btn" style="background-color: rgb(61, 16, 102);color:white">{{nome}}</button>
+            </a>
+            <hr style="background-color: black;">
+            <br>
+     
+</div>
+{{else}}
+
+<h1>nenhuma categoria</h1>
+
+{{/each}}

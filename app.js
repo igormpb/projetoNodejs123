@@ -1,12 +1,15 @@
+require('./models/postagem');
+require('./models/Categoria')
 const express = require('express');
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const admin = require('./routes/admin');
+const usuario = require('./routes/usuario')
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
-require('./models/postagem');
+const Categoria = mongoose.model('categorias')
 const Postagem = mongoose.model('postagens')
 const app = express();
 
@@ -61,8 +64,32 @@ app.get('/postagem/:slug',(req,res)=>{
         res.redirect('/')
     })
 })
- app.use('/admin', admin);
+app.get('/categorias', (req,res)=>{
+    Categoria.find().then((categorias)=>{
+    res.render('categoria/categorias',{categorias:categorias})
+    }).catch((err)=>{
+    req.flash('error_msg','houve um erro ao listar a categoria')
+    })
+})
 
+app.get('/categorias/:slug',(req,res)=>{
+    Categoria.findOne({slug: req.params.slug}).then((categoria)=>{
+        if(categoria){
+            Postagem.find({categoria:categoria._id}).then((postagens)=>{
+        res.render('categoria/postDaCategoria',{postagens: postagens,categoria: categoria})
+    }).catch((err)=>{
+        req.flash('error_msg','erro ao entrar na postagens da categoria')
+        res.redirect('/')
+    })
+            
+        }
+    }).catch((err)=>{
+        req.flash('error_msg','erro ao entrar na postagens da categoria')
+        res.redirect('/')
+    })
+})
+app.use('/admin', admin);
+app.use('/usuarios', usuario)
 
 
 // servidor
