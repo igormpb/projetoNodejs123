@@ -1,0 +1,31 @@
+
+    <div id="login">
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center mt-5">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" class="form shadow-lg p-5 mb-4 rounded mt-5" action="/usuarios/login"
+                            method="POST">
+                            <h3 class="text-center">Login</h3>
+                            <div class="form-group">
+                                <label for="usuario">email:</label><br>
+                                <input type="text" name="email" id="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="senha">senha:</label><br>
+                                <input type="password" name="senha" id="senha" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="remember-me"><span>Remember me</span> <span><input id="remember-me"
+                                            name="remember-me" type="checkbox"></span></label><br>
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                            </div>
+                            <div id="register-link" class="text-right">
+                                <a href="/usuarios/registro" class="" style="color: black;">Crie sua conta</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
