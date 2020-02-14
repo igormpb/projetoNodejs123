@@ -103,6 +103,7 @@ app.use('/usuarios', usuario)
 
 
 // servidor
-app.listen(8080, () => {
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
     console.log('open server!');
 });
